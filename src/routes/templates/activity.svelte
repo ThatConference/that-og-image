@@ -49,13 +49,17 @@
 	export let activityDetails;
 	export let member;
 
+	import { onMount } from 'svelte';
 	import dayjs from 'dayjs';
 	import utc from 'dayjs/plugin/utc.js';
 	import timezone from 'dayjs/plugin/timezone.js';
 	import advancedFormat from 'dayjs/plugin/advancedFormat.js';
+	import twemoji from 'twemoji';
 
 	import LogoWide from './_components/logo-wide.svelte';
 	import Trees from './_components/trees.svelte';
+
+	const twOptions = { folder: 'svg', ext: '.svg' };
 
 	dayjs.extend(utc);
 	dayjs.extend(timezone);
@@ -102,7 +106,9 @@
 					{dayjs(activityDetails.startTime).format('dddd, MMMM D, YYYY - h:mm A z')}
 				</p>
 			</div>
-			<h1 class="text-4xl font-extrabold text-gray-900">{activityDetails.title}</h1>
+			<h1 class="header text-4xl font-extrabold text-gray-900">
+				{@html twemoji.parse(activityDetails.title, twOptions)}
+			</h1>
 
 			<div class="w-36">
 				<LogoWide />
@@ -114,5 +120,13 @@
 <style>
 	.flip {
 		transform: scaleX(-1);
+	}
+
+	.header > :global(img.emoji) {
+		display: inline;
+		height: 1em;
+		width: 1em;
+		margin: 0 0.05em 0 0.1em;
+		vertical-align: -0.1em;
 	}
 </style>
